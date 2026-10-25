@@ -1,13 +1,15 @@
-# Miraya's World
-A static, iPad-friendly learning website. No database or account required.
+# Miraya's World 2.0
 
-## Deploy on GitHub Pages
-1. Create a new **public** GitHub repository named `mirayas-world`.
-2. Upload `index.html`, `manifest.webmanifest`, `icon.svg`, and `sw.js` to the repository root.
-3. Go to **Settings → Pages** and select **Deploy from a branch**, `main`, `/ (root)`; save.
-4. Visit `https://YOUR-USERNAME.github.io/mirayas-world/` after deployment.
-5. Open the URL in Safari on the iPad. Use Share → Add to Home Screen.
+## Setup
+1. Create a Supabase project. In Authentication > Users, add a parent email/password user. Copy the user's UUID.
+2. In Supabase SQL Editor, open `supabase.sql`, replace `PARENT_USER_UUID` with the UUID and run it once. (If you rerun it, existing policies may cause errors.)
+3. In Supabase Project Settings / API Keys, copy the project URL and **publishable** key into `config.js`. Never put secret or service_role keys in browser code.
+4. Upload `index.html` and `config.js` to the **root** of your existing GitHub Pages repository. Keep `supabase.sql` private/off the published site if you prefer. Do not upload the ZIP itself.
+5. Open your website > Parent > sign in > add questions > Preview > Publish. Miraya sees published activities in Play after refreshing the page.
 
-Progress is stored locally in the browser. Use Parent Corner to export and import backups. If Safari data is cleared, local progress may be lost. Progress is not synced across browsers/devices or necessarily between Safari and a Home Screen web app.
-
-Offline support uses a service worker; visit the site online first and allow it to load before going offline. GitHub Pages is public hosting, so do not publish private personal information.
+## Notes
+- Parent authentication and Row Level Security protect writes. Anyone with the public URL can view published activities. Don't publish sensitive child information.
+- Child progress remains in the iPad's browser localStorage, not Supabase. Use Export Progress to back it up.
+- Matching activities use tap-to-match, suitable for iPad touch screens.
+- This is an initial working builder. No image upload, AI generator, or offline caching yet.
+- Preview creates a temporary in-memory activity and does not publish it.
